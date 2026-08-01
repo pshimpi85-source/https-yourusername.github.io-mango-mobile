@@ -1,0 +1,11 @@
+To use your real Mango Mobile photos on the website:
+
+1. Place your image files in the images folder.
+2. Use these names:
+   - hero-phone.jpg or hero-phone.png
+   - front-view.jpg or front-view.png
+   - display.jpg or display.png
+   - camera.jpg or camera.png
+3. The website will use them automatically if the file names match.
+
+If you want, you can also rename the files and update the image paths in index.html.

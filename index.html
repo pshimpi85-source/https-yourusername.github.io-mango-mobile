@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mango Mobile | Advanced Performance</title>
+    <style>
+      :root {
+        --bg: #07111f;
+        --panel: #101d33;
+        --accent: #ff9f1c;
+        --accent-2: #2dd4bf;
+        --text: #f5f7fb;
+        --muted: #aeb9c9;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(135deg, var(--bg), #16253f);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      .container {
+        width: min(1120px, 92%);
+        margin: 0 auto;
+      }
+
+      header {
+        padding: 24px 0;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .nav-links a {
+        color: var(--text);
+        text-decoration: none;
+        font-size: 0.95rem;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--accent);
+      }
+
+      .logo-mark {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #07111f;
+        font-weight: 800;
+        box-shadow: 0 0 0 0 rgba(255, 159, 28, 0.6);
+        position: relative;
+        animation: pulse 2s infinite;
+      }
+
+      .logo-mark::after {
+        content: "";
+        position: absolute;
+        inset: -3px;
+        border: 2px solid rgba(255, 255, 255, 0.35);
+        border-radius: 50%;
+        animation: spin 6s linear infinite;
+      }
+
+      .brand-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.1;
+      }
+
+      .brand-text strong {
+        font-size: 1.05rem;
+        letter-spacing: 0.08em;
+      }
+
+      .brand-text span {
+        font-size: 0.72rem;
+        color: var(--muted);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+
+      .site-address {
+        margin-top: 8px;
+        font-size: 0.95rem;
+        color: var(--accent-2);
+        font-weight: 600;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 24px;
+        align-items: center;
+        padding: 40px 0 70px;
+      }
+
+      .hero-content h1 {
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        margin-bottom: 14px;
+      }
+
+      .hero-content p {
+        color: var(--muted);
+        font-size: 1.05rem;
+        margin-bottom: 20px;
+        max-width: 620px;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        display: inline-block;
+        text-decoration: none;
+        color: #07111f;
+        background: var(--accent);
+        padding: 12px 18px;
+        border-radius: 999px;
+        font-weight: 700;
+        transition: transform 0.2s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .btn {
+        animation: glow 2.4s ease-in-out infinite;
+      }
+
+      .phone-card {
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 24px;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+      }
+
+      .phone-card img {
+        width: 100%;
+        border-radius: 16px;
+        animation: float 4s ease-in-out infinite;
+      }
+
+      section {
+        padding: 40px 0;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 18px;
+      }
+
+      .image-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        overflow: hidden;
+      }
+
+      .card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .card-body {
+        padding: 16px;
+      }
+
+      .variant-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .price {
+        color: var(--accent-2);
+        font-weight: 700;
+        margin-top: 8px;
+      }
+
+      .features-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .feature-item {
+        background: var(--panel);
+        padding: 18px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .feature-item h3 {
+        margin-bottom: 8px;
+        color: var(--accent);
+      }
+
+      .contact-box {
+        background: linear-gradient(135deg, rgba(255, 159, 28, 0.16), rgba(45, 212, 191, 0.16));
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .testimonial-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .testimonial {
+        background: var(--panel);
+        padding: 18px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .testimonial strong {
+        color: var(--accent);
+      }
+
+      .specs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .spec {
+        background: var(--panel);
+        padding: 18px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .spec h3 {
+        margin-bottom: 8px;
+        color: var(--accent);
+      }
+
+      .compare-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .compare-card {
+        background: var(--panel);
+        padding: 18px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .compare-card ul {
+        margin-top: 10px;
+        padding-left: 18px;
+        color: var(--muted);
+      }
+
+      footer {
+        padding: 24px 0 40px;
+        text-align: center;
+        color: var(--muted);
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          box-shadow: 0 0 0 0 rgba(255, 159, 28, 0.55);
+        }
+        70% {
+          transform: scale(1.05);
+          box-shadow: 0 0 0 12px rgba(255, 159, 28, 0);
+        }
+        100% {
+          transform: scale(1);
+          box-shadow: 0 0 0 0 rgba(255, 159, 28, 0);
+        }
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes glow {
+        0%,
+        100% {
+          box-shadow: 0 0 0 rgba(255, 159, 28, 0);
+        }
+        50% {
+          box-shadow: 0 0 18px rgba(255, 159, 28, 0.3);
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      @media (max-width: 860px) {
+        .hero,
+        .image-grid,
+        .variant-grid,
+        .features-list {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <div class="brand">
+            <div class="logo-mark">M</div>
+            <div class="brand-text">
+              <strong>MANGO MOBILE</strong>
+              <span>New Launch</span>
+              <div class="site-address">www.mango.com</div>
+            </div>
+          </div>
+          <div class="nav-links">
+            <a href="#images">Images</a>
+            <a href="#variants">Variants</a>
+            <a href="#features">Features</a>
+            <a href="#testimonials">Testimonials</a>
+          </div>
+          <a class="btn" href="#features">Explore Features</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <div class="hero-content">
+          <h1>Meet the new Mango Mobile with advanced performance.</h1>
+          <p>
+            Designed for speed, style, and smart multitasking, Mango Mobile brings
+            powerful processing, brilliant visuals, and a premium experience to everyday life.
+          </p>
+          <div class="hero-actions">
+            <a class="btn" href="#variants">Buy Now</a>
+            <a class="btn btn-secondary" href="#contact">Contact Us</a>
+          </div>
+        </div>
+        <div class="phone-card">
+          <img src="images/081c5ca4-4a84-4b38-aed1-50dc76bc24cf.JPG" alt="Mango Mobile smartphone" />
+        </div>
+      </section>
+
+      <section id="images">
+        <h2>Mobile Images</h2>
+        <div class="grid image-grid">
+          <div class="card">
+            <img src="images/3f459ab3-4656-4934-b981-4c50d7b602e7.JPG" alt="Mango Mobile front view" />
+            <div class="card-body">
+              <h3>Premium Design</h3>
+              <p>Sleek body with a modern finish and comfortable grip.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="images/74f8b7ea-8c1d-46a1-ae5a-d2fba1c5c86b.JPG" alt="Mango Mobile display" />
+            <div class="card-body">
+              <h3>Bright Display</h3>
+              <p>Vivid colors and smooth visuals for entertainment and work.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="images/7dd6f6de-0de7-4664-ba94-c48a39a4638d.JPG" alt="Mango Mobile camera close-up" />
+            <div class="card-body">
+              <h3>Advanced Camera</h3>
+              <p>Capture sharp photos with intelligent camera features.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="images/cdf49c62-9ebc-4f6a-b12c-195c1efbad00.JPG" alt="Mango Mobile side view" />
+            <div class="card-body">
+              <h3>Compact Power</h3>
+              <p>Modern build and strong performance packed into a stylish design.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="variants">
+        <h2>Mobile Variants</h2>
+        <div class="grid variant-grid">
+          <div class="card">
+            <div class="card-body">
+              <h3>Mango Lite</h3>
+              <p>Compact and budget-friendly with strong everyday performance.</p>
+              <div class="price">Starting at $249</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h3>Mango Pro</h3>
+              <p>Fast processor, better camera setup, and premium display.</p>
+              <div class="price">Starting at $399</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h3>Mango Max</h3>
+              <p>Top-tier performance with large battery and flagship features.</p>
+              <div class="price">Starting at $599</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="testimonials">
+        <h2>What Users Say</h2>
+        <div class="testimonial-grid">
+          <div class="testimonial">
+            <p>“The speed and battery life are amazing. It feels premium in every way.”</p>
+            <strong>— Asha, Tech Enthusiast</strong>
+          </div>
+          <div class="testimonial">
+            <p>“Great camera quality and super smooth performance for daily use.”</p>
+            <strong>— Rahul, College Student</strong>
+          </div>
+        </div>
+      </section>
+
+      <section id="specs">
+        <h2>Product Specifications</h2>
+        <div class="specs">
+          <div class="spec">
+            <h3>Processor</h3>
+            <p>Advanced octa-core chipset for fast speed and smooth multitasking.</p>
+          </div>
+          <div class="spec">
+            <h3>Display</h3>
+            <p>6.7-inch AMOLED display with vibrant colors and high refresh rate.</p>
+          </div>
+          <div class="spec">
+            <h3>Camera</h3>
+            <p>Triple-lens camera system with AI enhancement and night mode.</p>
+          </div>
+          <div class="spec">
+            <h3>Battery</h3>
+            <p>5000mAh battery with fast charging and efficient power management.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="compare">
+        <h2>Mango Mobile vs Competitor</h2>
+        <div class="compare-grid">
+          <div class="compare-card">
+            <h3>Mango Mobile</h3>
+            <ul>
+              <li>Fast advanced processor</li>
+              <li>Premium camera features</li>
+              <li>Long battery life</li>
+              <li>Modern sleek design</li>
+            </ul>
+          </div>
+          <div class="compare-card">
+            <h3>Typical Competitor</h3>
+            <ul>
+              <li>Average processor speed</li>
+              <li>Basic camera setup</li>
+              <li>Shorter battery backup</li>
+              <li>Less stylish design</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="features">
+        <h2>Mobile Features</h2>
+        <div class="features-list">
+          <div class="feature-item">
+            <h3>Advanced Processor</h3>
+            <p>Fast app switching and smooth gaming with next-generation chipset performance.</p>
+          </div>
+          <div class="feature-item">
+            <h3>Long Battery Life</h3>
+            <p>Power through the day with an efficient battery that supports heavy use.</p>
+          </div>
+          <div class="feature-item">
+            <h3>5G Connectivity</h3>
+            <p>Enjoy ultra-fast downloads, streaming, and low-latency connectivity.</p>
+          </div>
+          <div class="feature-item">
+            <h3>Smart Camera System</h3>
+            <p>Capture stunning images in daylight, night, and low-light conditions.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="contact-box">
+          <div>
+            <h2>Ready to experience Mango Mobile?</h2>
+            <p>Visit us at www.mango.com or contact our team for latest offers and availability.</p>
+          </div>
+          <a class="btn" href="mailto:info@mango.com">Email Us</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>Designed for a college project presentation about the new Mango Mobile.</p>
+      </div>
+    </footer>
+  </body>
+</html>
